@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <h1 className="text-6xl text-purple-600">
-        All Coffees : {allCoffee.length}
+        All Coffees in here : {allCoffee.length}
       </h1>
       <div className="grid md:grid-cols-2 gap-2">
         {allCoffee.map((coffee) => (
