@@ -23,7 +23,7 @@ const SignUp = () => {
           body: JSON.stringify(user),
           // body: json.stringify({ addCoffee }),
         })
-          .then((res) => res.json())
+          // .then((res) => res.json())
           .then((data) => {
             console.log(data);
             if (data.insertedId) {

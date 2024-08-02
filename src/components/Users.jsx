@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 const Users = () => {
-  const users = useLoaderData();
-  console.log(users);
+  const loadedUsers = useLoaderData();
+  console.log(loadedUsers);
+
+  const [users, setUsers] = useState(loadedUsers);
+
+  const handleDelete = (id) => {
+    console.log("handle delete is working");
+    console.log("delete", id);
+
+    fetch(`http://localhost:5000/user/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.deletedCount > 0) {
+          alert("deleted successfully id", id);
+          const remainingUsers = users.filter((u) => u._id != id);
+          setUsers(remainingUsers);
+        }
+      });
+  };
   return (
     <div>
       <h2>All users in here:{users.length}</h2>
@@ -15,6 +35,7 @@ const Users = () => {
               <th></th>
               <th>Email</th>
               <th>Creation Time</th>
+              <th>Last Login</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -25,7 +46,15 @@ const Users = () => {
                 <th>1</th>
                 <td>{u.email}</td>
                 <td>{u.userCreateAt}</td>
-                <td>Blue</td>
+                <td></td>
+                <td>
+                  <button
+                    className="btn bg-orange-700"
+                    onClick={() => handleDelete(u._id)}
+                  >
+                    X
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
