@@ -12,7 +12,25 @@ const SignUp = () => {
     console.log(form, email, password);
 
     createUser(email, password)
-      .then((result) => console.log(result.user))
+      .then((result) => {
+        console.log(result.user);
+        const userCreateAt = result.user?.metadata?.creationTime;
+        const user = { email, userCreateAt: userCreateAt };
+        console.log(user);
+        fetch("http://localhost:5000/user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+          // body: json.stringify({ addCoffee }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.insertedId) {
+              alert("user added successfully to database");
+            }
+          });
+      })
       .catch((err) => console.log(err));
   };
   return (
